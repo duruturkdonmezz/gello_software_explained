@@ -1,9 +1,9 @@
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Tuple
+from typing import Tuple #used to define fixed-length tuples for joint data
 
 import numpy as np
-import tyro
+import tyro #auto-generates a command line interface from Args class
 
 from gello.dynamixel.driver import DynamixelDriver
 
@@ -24,7 +24,7 @@ class Args:
     gripper: bool = True
     """Whether or not the gripper is attached."""
 
-    def __post_init__(self):
+    def __post_init__(self): #ensures start_joints and joint_signs are the same length and either 1 or -1
         assert len(self.joint_signs) == len(self.start_joints)
         for idx, j in enumerate(self.joint_signs):
             assert (
