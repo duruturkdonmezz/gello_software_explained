@@ -33,7 +33,7 @@ def run_docker_container():
         "pip install -e third_party/DynamixelSDK/python && exec bash", #install DynamixelSDK python package, then runs a new bash shell
     ]
 
-    subprocess.run(cmd) #execute assembled docker command
+    subprocess.run(cmd) #execute the assembled docker command
 
 
 if __name__ == "__main__":
