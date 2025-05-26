@@ -1,27 +1,26 @@
-import time
-from pathlib import Path
+import time #used to run sim in real time
+from pathlib import Path #object oriented way to work with file paths
 
-import mujoco
-import mujoco.viewer
+import mujoco #core physics engine
+import mujoco.viewer #GUI viewer
 
 
 def main():
-    _PROJECT_ROOT: Path = Path(__file__).parent.parent
-    _MENAGERIE_ROOT: Path = _PROJECT_ROOT / "third_party" / "mujoco_menagerie"
-    xml = _MENAGERIE_ROOT / "franka_emika_panda" / "panda.xml"
+    _PROJECT_ROOT: Path = Path(__file__).parent.parent #go up two levels from the path to this python script
+    _MENAGERIE_ROOT: Path = _PROJECT_ROOT / "third_party" / "mujoco_menagerie" #points to folder where mujoco robot model files are stored 
+    #xml = _MENAGERIE_ROOT / "franka_emika_panda" / "panda.xml" 
 
-    # xml = _MENAGERIE_ROOT / "universal_robots_ur5e" / "ur5e.xml"
+    xml = _MENAGERIE_ROOT / "universal_robots_ur5e" / "ur5e.xml"
 
-    m = mujoco.MjModel.from_xml_path(xml.as_posix())
-    d = mujoco.MjData(m)
+    m = mujoco.MjModel.from_xml_path(xml.as_posix()) #load robot and simulation in a model
+    d = mujoco.MjData(m) #create data object that tracks current state of simulation
 
-    with mujoco.viewer.launch_passive(m, d) as viewer:
+    with mujoco.viewer.launch_passive(m, d) as viewer: 
         # Close the viewer automatically after 30 wall-seconds.
         while viewer.is_running():
             step_start = time.time()
 
-            # mj_step can be replaced with code that also evaluates
-            # a policy and applies a control signal before stepping the physics.
+            # mj_step can be replaced with code that also evaluates a policy and applies a control signal before stepping the physics.
             mujoco.mj_step(m, d)
 
             # Example modification of a viewer option: toggle contact points every two seconds.
